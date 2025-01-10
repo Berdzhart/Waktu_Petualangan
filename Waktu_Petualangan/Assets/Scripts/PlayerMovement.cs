@@ -12,14 +12,16 @@ public class PlayerMovement : MonoBehaviour
     public bool isFacingRight = true;
     public bool isGrounded;
 
-    public bool isWallClinging;
+    public bool isWallSliding;
+    public float wallSlidingSpeed = 0.5f;
     public bool isWallTouching;
+
 
     private bool isWallJumping;
     private float wallJumpingDirection;
-    private float wallJumpingTime = 0.2f;
+    private float wallJumpingTime = 0.1f;
     private float wallJumpingCounter;
-    private float wallJumpingDuration = 0.4f;
+    private float wallJumpingDuration = 0.2f;
     private Vector2 wallJumpingPower = new Vector2(2f, 4f);
 
     [SerializeField] private Rigidbody2D rb;
@@ -35,12 +37,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
-        animator.SetFloat("VerticalSpeed", rb.velocity.y);
-        animator.SetBool("IsWallClinging", isWallTouching);
-        animator.SetBool("IsGrounded", isGrounded);
+        isGrounded = Physics2D.OverlapBox(groundCheck.position, new Vector2(0.1f, 0.07f), 0, groundLayer);
+        isWallTouching = Physics2D.OverlapBox(wallCheck.position, new Vector2(0.08f, 0.2f), 0, wallLayer);
         horizontal = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -52,52 +52,61 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
-
-        isGrounded = Physics2D.OverlapBox(groundCheck.position, new Vector2(0.15f, 0.03f), 0, groundLayer);
-        isWallTouching = Physics2D.OverlapBox(wallCheck.position, new Vector2(0.02f, 0.2f), 0, wallLayer);
-        // WallSlide();
-        WallCling();
+        
+        WallSlide();
         WallJump();
-        Flip();
+
+        if (!isWallJumping)
+        {
+            Flip();
+        }
+        animator.SetFloat("VerticalSpeed", rb.velocity.y);
+        animator.SetFloat("HorizontalSpeed", Mathf.Abs(horizontal));
+        animator.SetBool("IsWallClinging", isWallTouching);
+        animator.SetBool("IsGrounded", isGrounded);
     }
 
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-        animator.SetFloat("HorizontalSpeed", Mathf.Abs(horizontal));
-        
+        if (!isWallJumping)
+        {
+            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        }
     }
 
-    // private void WallSlide()
-    // {
-    //     if (isWallTouching && horizontal != 0f && !isGrounded)
-    //     {
-    //         isWallSliding = true;
-    //         rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-    //     }
-    //     else
-    //     {
-    //         isWallSliding = false;
-    //     }
-    // }
-
-    private void WallCling()
+    private void WallSlide()
     {
         if (isWallTouching && horizontal != 0f && !isGrounded)
         {
-            isWallClinging = true;
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0);
+            isWallSliding = true;
+            if (isWallSliding)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+            }
         }
         else
         {
-            isWallClinging = false;
+            isWallSliding = false;
         }
     }
 
+    // private void WallCling()
+    // {
+    //     if (isWallTouching && horizontal != 0f && !isGrounded)
+    //     {
+    //         isWallClinging = true;
+    //         rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0);
+    //     }
+    //     else
+    //     {
+    //         isWallClinging = false;
+    //     }
+    // }
+
     private void WallJump()
     {
-        if (isWallClinging)
+        if (isWallSliding)
         {
             isWallJumping = false;
             wallJumpingDirection = -transform.localScale.x;
