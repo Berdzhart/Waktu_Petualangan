@@ -11,6 +11,10 @@ public class PlayerMovement : MonoBehaviour
     public float jumpingPower = 4f;
     public bool isFacingRight = true;
     public bool isGrounded;
+    public bool isHit;
+    public GameObject hitTiming;
+    private Health bool_script;
+
 
     public bool isWallSliding;
     public float wallSlidingSpeed = 0.5f;
@@ -33,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        bool_script = hitTiming.GetComponent<Health>();
     }
 
     // Update is called once per frame
@@ -55,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
         
         WallSlide();
         WallJump();
+        HitTimer();
+
 
         if (!isWallJumping)
         {
@@ -64,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("HorizontalSpeed", Mathf.Abs(horizontal));
         animator.SetBool("IsWallClinging", isWallTouching);
         animator.SetBool("IsGrounded", isGrounded);
+        animator.SetFloat("HitTimer", bool_script.hitTimeCounter);
     }
 
 
@@ -137,6 +144,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void HitTimer()
+    {
+        if (bool_script.hitTimeCounter > -0.1)
+        {
+            bool_script.hitTimeCounter -= Time.deltaTime;
+        }
+        
+        
+        
+    }
     private void StopWallJumping()
     {
         isWallJumping = false;
