@@ -11,10 +11,6 @@ public class PlayerMovement : MonoBehaviour
     public float jumpingPower = 4f;
     public bool isFacingRight = true;
     public bool isGrounded;
-    public bool isHit;
-    public GameObject hitTiming;
-    private Health bool_script;
-
 
     public bool isWallSliding;
     public float wallSlidingSpeed = 0.5f;
@@ -37,14 +33,14 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bool_script = hitTiming.GetComponent<Health>();
+
     }
 
     // Update is called once per frame
     private void Update()
     {
-        isGrounded = Physics2D.OverlapBox(groundCheck.position, new Vector2(0.1f, 0.07f), 0, groundLayer);
-        isWallTouching = Physics2D.OverlapBox(wallCheck.position, new Vector2(0.08f, 0.2f), 0, wallLayer);
+        isGrounded = Physics2D.OverlapBox(groundCheck.position, new Vector2(0.14f, 0.053f), 0, groundLayer);
+        isWallTouching = Physics2D.OverlapBox(wallCheck.position, new Vector2(0.06f, 0.1f), 0, wallLayer);
         horizontal = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -59,9 +55,7 @@ public class PlayerMovement : MonoBehaviour
         
         WallSlide();
         WallJump();
-        HitTimer();
-
-
+        
         if (!isWallJumping)
         {
             Flip();
@@ -70,7 +64,6 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("HorizontalSpeed", Mathf.Abs(horizontal));
         animator.SetBool("IsWallClinging", isWallTouching);
         animator.SetBool("IsGrounded", isGrounded);
-        animator.SetFloat("HitTimer", bool_script.hitTimeCounter);
     }
 
 
@@ -144,16 +137,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void HitTimer()
-    {
-        if (bool_script.hitTimeCounter > -0.1)
-        {
-            bool_script.hitTimeCounter -= Time.deltaTime;
-        }
-        
-        
-        
-    }
     private void StopWallJumping()
     {
         isWallJumping = false;
