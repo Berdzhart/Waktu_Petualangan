@@ -7,6 +7,8 @@ TagManager:
   - Apple
   - BackgroundDetector
   - Background
+  - Border
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -20,8 +22,8 @@ TagManager:
   - Wall
   - BackgroundDetector
   - Background
-  - 
-  - 
+  - Border
+  - Platform
   - 
   - 
   - 

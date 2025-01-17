@@ -40,6 +40,7 @@ public class Health : MonoBehaviour
             if (!dead)
             {
                 animator.SetTrigger("Die");
+                animator.SetBool("IsDead", true);
                 rb.velocity = new Vector2(0f, 0f);
                 rb.gravityScale = 0f;
                 GetComponent<PlayerMovement>().enabled = false;
