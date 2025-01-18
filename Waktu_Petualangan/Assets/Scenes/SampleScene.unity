@@ -790,6 +790,7 @@ GameObject:
   - component: {fileID: 838649641}
   - component: {fileID: 838649640}
   - component: {fileID: 838649645}
+  - component: {fileID: 838649646}
   m_Layer: 13
   m_Name: FlyingPlatform
   m_TagString: Platform
@@ -854,8 +855,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e1655767c5c5284593ed1b914eabb26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementDistance: 0.7
-  speed: 1
+  movementDistance: 0.3
+  platformVelocity: 0.5
+  playerRb: {fileID: 1149949736}
 --- !u!212 &838649643
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -944,6 +946,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!50 &838649646
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838649639}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
+  m_Constraints: 6
 --- !u!1 &950857921
 GameObject:
   m_ObjectHideFlags: 0

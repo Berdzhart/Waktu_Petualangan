@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpingPower = 4f;
     public bool isFacingRight = true;
     public bool isGrounded;
+    private bool isOnPlatform;
+    private Vector2 platformVelocity = Vector2.zero;
 
     public bool isWallSliding;
     public float wallSlidingSpeed = 0.5f;
@@ -71,7 +73,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isWallJumping)
         {
-            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+            Vector2 playerVelocity = new Vector2(horizontal * speed, rb.velocity.y);
+            rb.velocity = playerVelocity + platformVelocity;
         }
     }
 
@@ -152,4 +155,31 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = localScale;
         }
      }
+
+     private void OnCollisionEnter2D(Collision2D other)
+     {
+        if (other.gameObject.CompareTag("Platform"))
+        {
+            isOnPlatform = true;
+        }
+     }
+
+     private void OnCollisionExit2D(Collision2D other)
+     {
+        if (other.gameObject.CompareTag("Platform"))
+        {
+            isOnPlatform = false;
+        }
+     }
+
+         public void SetPlatformVelocity(Vector2 velocity)
+    {
+        platformVelocity = velocity;
+    }
+
+    // Method to clear the platform's velocity when leaving it
+    public void ClearPlatformVelocity()
+    {
+        platformVelocity = Vector2.zero;
+    }
 }
