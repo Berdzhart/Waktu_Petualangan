@@ -204,3 +204,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerScore: {fileID: 0}
   animator: {fileID: 8494409411788183246}
+  fruitCollider: {fileID: 794167364199646737}

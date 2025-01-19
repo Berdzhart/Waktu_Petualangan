@@ -183,6 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerScore: {fileID: 0}
   animator: {fileID: 3839914474520290966}
+  fruitCollider: {fileID: 794167364199646737}
 --- !u!95 &3839914474520290966
 Animator:
   serializedVersion: 5

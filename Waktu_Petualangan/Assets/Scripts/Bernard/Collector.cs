@@ -8,6 +8,7 @@ public class Collector : MonoBehaviour
     private float disappearTime = 0.3f;
     private float currentTime = -1f;
     public Animator animator;
+    public Collider2D fruitCollider;
 
     void Start()
     {
@@ -32,11 +33,14 @@ public class Collector : MonoBehaviour
         if (collision.tag == "Player")
         {
             playerScore.scoreCount++;
-
             currentTime = disappearTime;
             animator.SetTrigger("Collecting");
+            fruitCollider.enabled = false;
         }
+    }
 
-
+    private void DisableCollider()
+    {
+        
     }
 }
