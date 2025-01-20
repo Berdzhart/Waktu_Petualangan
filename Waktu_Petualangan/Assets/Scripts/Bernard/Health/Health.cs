@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
@@ -30,7 +32,6 @@ public class Health : MonoBehaviour
 
         if (currentHealth > 0)
         {
-            
             animator.SetTrigger("Hurt");
             StartCoroutine(Invulnerability());           
             //iframes
@@ -44,6 +45,7 @@ public class Health : MonoBehaviour
                 rb.velocity = new Vector2(0f, 0f);
                 rb.gravityScale = 0f;
                 GetComponent<PlayerMovement>().enabled = false;
+                Invoke("ReplayLevel", 1f);
                 dead = true;
             }
         }
@@ -64,5 +66,10 @@ public class Health : MonoBehaviour
             yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
         }
         Physics2D.IgnoreLayerCollision(8, 7, false);
+    }
+    
+    private void ReplayLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

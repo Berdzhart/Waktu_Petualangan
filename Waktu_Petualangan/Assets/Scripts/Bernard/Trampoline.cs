@@ -18,6 +18,6 @@ public class Trampoline : MonoBehaviour
     }
     private void TrampolineIdle()
     {
-        animator.SetTrigger("PlayerNotOnTop");
+        animator.SetTrigger("PlayerNotOnTop"); 
     }
 }

@@ -24,18 +24,42 @@ public class PlayerScore : MonoBehaviour
     {
         UIText.text = scoreCount.ToString();
         Debug.Log(scoreCount);
-        if (scoreCount == 13)
+
+        if (SceneManager.GetActiveScene().name == "L1 Irfn")
         {
-            if (!functionCalled)
+            if (scoreCount == 8)
             {
-                playerAnimator.SetTrigger("LevelTransition");
-                Invoke("LoadNewScene", 1f);
-                functionCalled = true;
+                if (!functionCalled)
+                {
+                    playerAnimator.SetTrigger("Die");
+                    Invoke("LoadNewSceneL1Irfan", 1f);
+                    functionCalled = true;
+                }
+            }
+        }
+
+        else if (SceneManager.GetActiveScene().name == "L2 Irfn")
+        {
+            if (scoreCount == 8)
+            {
+                if (!functionCalled)
+                {
+                    playerAnimator.SetTrigger("Die");
+                    Invoke("LoadNewSceneL2Irfan", 1f);
+                    functionCalled = true;
+                }
             }
         }
     }
-    private void LoadNewScene()
+    private void LoadNewSceneL1Irfan()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("L2 Irfn");
     }
+
+    private void LoadNewSceneL2Irfan()
+    {
+        SceneManager.LoadScene("L3 Irfn");
+    }
+
+
 }
