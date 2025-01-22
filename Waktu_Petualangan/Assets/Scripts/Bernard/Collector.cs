@@ -38,9 +38,4 @@ public class Collector : MonoBehaviour
             fruitCollider.enabled = false;
         }
     }
-
-    private void DisableCollider()
-    {
-        
-    }
 }
